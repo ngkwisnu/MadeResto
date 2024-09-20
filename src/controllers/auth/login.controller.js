@@ -1,15 +1,22 @@
-import { validateLoginAccount } from "../../validations/user.validator.js";
+export const login_user_function =
+  (
+    validateLoginAccount,
+    dbUserAccess,
+    bcryptToken,
+    createJWT,
+    createResponse
+  ) =>
+  async (req, res) => {
+    const validatedLoginData = await validateLoginAccount(req.body);
+    const { username, password } = validatedLoginData.getDataLogin();
+    const userDetail = await dbUserAccess.get_detail_user_repository(username);
+    await bcryptToken.compare(password, userDetail.password);
+    const access_token = await createJWT.access_key(userDetail);
+    const refresh_token = await createJWT.refresh_key(userDetail);
 
-export const login_user_function = (User, Function) => async (req, res) => {
-  const validatedLoginData = await validateLoginAccount(req.body);
-  const { username } = validatedLoginData.getDataLogin();
-  const userDetail = await User.get_detail_user_repository(username);
-  const access_token = await Function.access_key(userDetail);
-  const refresh_token = await Function.refresh_key(userDetail);
-
-  return Function.createResponse(
-    { access_token, refresh_token },
-    "Login successfully!",
-    200
-  );
-};
+    return createResponse(
+      { access_token, refresh_token },
+      "Login successfully!",
+      200
+    );
+  };

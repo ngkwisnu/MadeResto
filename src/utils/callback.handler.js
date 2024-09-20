@@ -1,3 +1,11 @@
+import UAParser from "ua-parser-js";
+
+function parseUserAgent(userAgent) {
+  const parser = new UAParser(userAgent);
+  const browserInfo = parser.getBrowser();
+  return browserInfo;
+}
+
 export default function handleCallback(controller) {
   return async (req, res) => {
     try {
@@ -7,6 +15,7 @@ export default function handleCallback(controller) {
         body: req.body || "",
         query: req.query || "",
         params: req.params || "",
+        browser: parseUserAgent(req.get("User-Agent")) || "",
         ip: req.ip,
         fileImage: req.files,
         method: req.method,

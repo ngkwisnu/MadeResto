@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import validator from "email-validator";
+import { validate } from "email-validator";
 
 // Bisa diganti dengan package Joi
 
@@ -15,7 +15,7 @@ const validateType = async (field, type) => {
 };
 
 const validateEmail = async (email) => {
-  return validator.validate(email);
+  return validate(email);
 };
 
 const validateId = async (id) => {

@@ -1,4 +1,4 @@
-import { compare, hash } from "./bcrypt.handler.js";
+import { comparePassword, hashPassword } from "./bcrypt.handler.js";
 import handleCallback from "./callback.handler.js";
 import ErrorHandler from "./error.handler.js";
 import { access_key, refresh_key, verify } from "./jwt.handler.js";
@@ -10,19 +10,18 @@ import {
   validateArray,
 } from "./validator.handler.js";
 
-export function utilFunc() {
-  return Object.freeze({
-    compare,
-    hash,
-    handleCallback,
-    ErrorHandler,
-    access_key,
-    refresh_key,
-    verify,
-    createResponse,
-    validateType,
-    validateEmail,
-    validateId,
-    validateArray,
-  });
-}
+export {
+  comparePassword,
+  hashPassword,
+  handleCallback,
+  ErrorHandler,
+  errorResponse,
+  access_key,
+  refresh_key,
+  verify,
+  createResponse,
+  validateType,
+  validateEmail,
+  validateId,
+  validateArray,
+};

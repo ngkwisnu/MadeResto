@@ -1,7 +1,5 @@
 import ErrorHandler from "../utils/error.handler.js";
 import { validateEmail, validateType } from "../utils/validator.handler.js";
-import { hash, compare } from "../utils/bcrypt.handler.js";
-import { get_detail_user_repository } from "../database/repositories/user/detail.js";
 
 const validateRegisterAccount = async ({
   username,
@@ -24,7 +22,7 @@ const validateRegisterAccount = async ({
     throw new ErrorHandler("isActive must be boolean");
   const user = {
     username,
-    password: hash(password),
+    password,
     email,
     isActive,
   };
@@ -40,8 +38,6 @@ const validateLoginAccount = async ({ username, password }) => {
   if (!password) throw new ErrorHandler("password must be filled");
   if (!validateType(password, "string"))
     throw new ErrorHandler("password must be string!");
-  const userData = await get_detail_user_repository(username);
-  await compare(password, userData.password);
   const user = {
     username,
     password,
