@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 import ErrorHandler from "./error.handler.js";
 
-const accessToken = async (payload) => {
+const generateAccessToken = async (payload) => {
   return jwt.sign(payload, process.env.ACCESS_KEY_SECRET, { expiresIn: "60s" });
 };
 
-const refreshToken = async (payload) => {
+const generateRefreshToken = async (payload) => {
   return jwt.sign(payload, process.env.REFRESH_KEY_SECRET, { expiresIn: "1d" });
 };
 
@@ -27,4 +27,4 @@ const verifyToken = async (token, secret) => {
 //   }
 // };
 
-export { accessToken, refreshToken, verifyToken };
+export { generateAccessToken, generateRefreshToken, verifyToken };

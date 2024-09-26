@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import ErrorHandler from "../../utils/error.handler.js";
+import softDelete from "../plugin/softDelete.js";
+import handdleError from "../plugin/handdleError.js";
+import timestamps from "../plugin/timestamps.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -15,6 +17,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     name: {
       type: String,
@@ -29,7 +32,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    is_deleted: {
+    deleted_at: {
       type: Date,
       default: null,
     },
@@ -41,17 +44,9 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.pre(["find", "fineOne"], function () {
-  this.where({ is_deleted: null });
-});
-
-userSchema.post("save", function (err, doc, next) {
-  if (err.code === 11000) {
-    if (err.keyValue.username) {
-      throw new ErrorHandler("Username must be unique", 400);
-    }
-  }
-});
+userSchema.plugin(timestamps);
+userSchema.plugin(softDelete);
+userSchema.plugin(handdleError);
 
 const User = mongoose.model("master_user", userSchema);
 

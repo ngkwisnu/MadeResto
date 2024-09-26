@@ -1,5 +1,5 @@
-import ErrorHandler from "../utils/error.handler.js";
-import { validateEmail, validateType } from "../utils/validator.handler.js";
+import ErrorHandler from "../../utils/error.handler.js";
+import { validateEmail, validateType } from "../../utils/validator.handler.js";
 
 const validateRegisterAccount = async ({
   username,
@@ -27,24 +27,8 @@ const validateRegisterAccount = async ({
     isActive,
   };
   return {
-    getData: () => user,
+    getDataRegister: () => user,
   };
 };
 
-const validateLoginAccount = async ({ username, password }) => {
-  if (!username) throw new ErrorHandler("username must be filled");
-  if (!validateType(username, "string"))
-    throw new ErrorHandler("password must be string!");
-  if (!password) throw new ErrorHandler("password must be filled");
-  if (!validateType(password, "string"))
-    throw new ErrorHandler("password must be string!");
-  const user = {
-    username,
-    password,
-  };
-  return {
-    getDataLogin: () => user,
-  };
-};
-
-export { validateRegisterAccount, validateLoginAccount };
+export { validateRegisterAccount };
