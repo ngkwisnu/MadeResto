@@ -1,5 +1,5 @@
 const softDelete = (schema) => {
-  schema.pre(["countDocument", "find", "fineOne"], function () {
+  schema.pre(["countDocument", "find", "findOne"], function () {
     this.where({ deleted_at: null });
   });
 };

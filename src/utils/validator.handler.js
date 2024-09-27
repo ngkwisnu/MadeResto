@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { isValidObjectId } from "mongoose";
 import { validate } from "email-validator";
 
 // Bisa diganti dengan package Joi
@@ -19,7 +19,7 @@ const validateEmail = async (email) => {
 };
 
 const validateId = async (id) => {
-  return mongoose.isValidObjectId(id);
+  return isValidObjectId(id);
 };
 
 const validateArray = async (array) => {

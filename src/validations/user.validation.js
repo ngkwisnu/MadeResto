@@ -1,5 +1,5 @@
-import { validateType } from "../../utils/validator.handler.js";
-import ErrorHandler from "../../utils/error.handler.js";
+import ErrorHandler from "../utils/error.handler.js";
+import { validateType } from "../utils/validator.handler.js";
 
 const userDataValidation = async (req) => {
   const {
@@ -27,7 +27,7 @@ const userDataValidation = async (req) => {
   if (is_active === undefined)
     throw new ErrorHandler("is_active must be filled!");
   if (!validateType(is_active, "boolean"))
-    throw new ErrorHandler("username must be boolean");
+    throw new ErrorHandler("is_active must be boolean");
   const userDataValidation = {
     id,
     username,
@@ -43,4 +43,4 @@ const userDataValidation = async (req) => {
   };
 };
 
-export { userDataValidation };
+export default userDataValidation;

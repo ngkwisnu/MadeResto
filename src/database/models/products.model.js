@@ -1,56 +1,39 @@
 import mongoose from "mongoose";
-import ErrorHandler from "../../utils/ErrorHandler";
+import handdleError from "../plugin/handdleError.js";
+import timestamps from "../plugin/timestamps.js";
+import softDelete from "../plugin/softDelete.js";
 
-const productSchema = new mongoose.Schema(
-  {
-    product_name: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    product_description: {
-      type: String,
-      required: true,
-    },
-    product_qty: {
-      type: Number,
-      required: true,
-    },
-    product_price: {
-      type: Number,
-      required: true,
-    },
-    is_active: {
-      type: Boolean,
-      default: true,
-    },
-    is_deleted: {
-      type: Boolean,
-      default: false,
-    },
-    deleted_at: {
-      type: Date,
-      default: null,
-    },
+const productSchema = new mongoose.Schema({
+  product_name: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  { timestamps: true }
-);
-
-productSchema.post("save", function (err, doc, next) {
-  if (err.code === 11000) {
-    if (err.keyValue.product_name) {
-      throw new ErrorHandler("Product name must be unique!");
-    }
-  }
-  next();
+  product_description: {
+    type: String,
+    required: true,
+  },
+  product_qty: {
+    type: Number,
+    required: true,
+  },
+  product_price: {
+    type: Number,
+    required: true,
+  },
+  is_active: {
+    type: Boolean,
+    default: true,
+  },
+  deleted_at: {
+    type: Date,
+    default: null,
+  },
 });
 
-productSchema.pre(
-  ["countDocuments", "find", "findOne"],
-  function (err, doc, next) {
-    doc.where({ is_deleted: false });
-  }
-);
+productSchema.plugin(timestamps);
+productSchema.plugin(softDelete);
+productSchema.plugin(handdleError);
 
 const Product = mongoose.model("master_products", productSchema);
 

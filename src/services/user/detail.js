@@ -9,9 +9,8 @@ const detail_user_service_func = async (req) => {
   if (!id) {
     throw new ErrorHandler("Must provide id user!");
   }
-  const userDetailData = await makeUserDb().user_detail_by_id_repository(
-    await validateId(id)
-  );
+  if (!(await validateId(id))) throw new ErrorHandler("id isn't validate!");
+  const userDetailData = await makeUserDb().user_detail_by_id_repository(id);
   if (!userDetailData) {
     throw new ErrorHandler("User not found!");
   }

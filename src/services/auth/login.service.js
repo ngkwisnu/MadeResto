@@ -23,10 +23,12 @@ const login_service_function = async (req) => {
   }
 
   const isMatch = await comparePassword(password, userDetail.password);
+  console.log(isMatch);
 
   if (!isMatch) {
     throw new ErrorHandler("invalid username and password!");
   }
+  console.log("object");
 
   const userDataPayload = {
     username: userDetail.username,
